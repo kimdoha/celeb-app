@@ -80,6 +80,10 @@ public class UserProvider {
         }
     }
     public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
+
+        if(checkEmail(postLoginReq.getEmail()) == 0)
+            throw new BaseException(FAILED_TO_LOGIN);
+
         User user = userDao.getPwd(postLoginReq);
         String encryptPwd;
         try {
@@ -91,7 +95,8 @@ public class UserProvider {
         if(user.getPassword().equals(encryptPwd)){
             int userIdx = user.getUserIdx();
             String jwt = jwtService.createJwt(userIdx);
-            return new PostLoginRes(userIdx,jwt);
+            String nickname = user.getNickname();
+            return new PostLoginRes(userIdx,jwt,nickname);
         }
         else{
             throw new BaseException(FAILED_TO_LOGIN);
@@ -99,4 +104,11 @@ public class UserProvider {
 
     }
 
+    public int checkUser(int userIdx) throws BaseException{
+        try{
+            return userDao.checkValidUser(userIdx);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

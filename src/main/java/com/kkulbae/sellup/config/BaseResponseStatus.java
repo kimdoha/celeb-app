@@ -29,12 +29,10 @@ public enum BaseResponseStatus {
     // post-users
     POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
-    POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
-    POST_USERS_EMPTY_PASSWORD(false, 2018, "패스워드를 입력해주세요."),
-    POST_USERS_INVALID_PASSWORD(false, 2019, "패드워드 형식을 확인해주세요."),
-    POST_USERS_EMPTY_NICKNAME(false, 2020, "닉네임을 입력해주세요."),
-    POST_USERS_INVALID_NICKNAME(false, 2021, "닉네임 형식을 확인해주세요."),
-    POST_USERS_EXISTS_NICKNAME(false,2022,"중복된 닉네임입니다."),
+    POST_USERS_EMPTY_PASSWORD(false, 2017, "패스워드를 입력해주세요."),
+    POST_USERS_INVALID_PASSWORD(false, 2018, "패드워드 형식을 확인해주세요."),
+    POST_USERS_EMPTY_NICKNAME(false, 2019, "닉네임을 입력해주세요."),
+    POST_USERS_INVALID_NICKNAME(false, 2020, "닉네임 형식을 확인해주세요."),
 
     /**
      * 3000 : Response 오류
@@ -42,9 +40,10 @@ public enum BaseResponseStatus {
     // Common
     RESPONSE_ERROR(false, 3000, "값을 불러오는데 실패하였습니다."),
 
-    // [POST] /users
+    // post-users
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
-    FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
+    FAILED_TO_LOGIN(false,3014,"없는 이메일이거나 비밀번호가 틀렸습니다."),
+    DUPLICATED_NICKNAME(false,3015,"중복된 닉네임입니다."),
 
 
 

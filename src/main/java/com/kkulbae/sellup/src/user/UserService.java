@@ -36,10 +36,10 @@ public class UserService {
     public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
         //중복
         if(userProvider.checkEmail(postUserReq.getEmail()) ==1){
-            throw new BaseException(POST_USERS_EXISTS_EMAIL);
+            throw new BaseException(DUPLICATED_EMAIL);
         }
         if(userProvider.checkNickName(postUserReq.getNickname()) ==1){
-            throw new BaseException(POST_USERS_EXISTS_NICKNAME);
+            throw new BaseException(DUPLICATED_NICKNAME);
         }
 
         String pwd;
