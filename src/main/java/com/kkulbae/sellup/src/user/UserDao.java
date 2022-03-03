@@ -105,8 +105,8 @@ public class UserDao {
 
     }
 
-    public int  checkValidUser(int userIdx){
-        String checkValidUserQuery = "select exists(select userIdx from users where userIdx = ? and isDeleted = 'N')";
+    public int checkValidUser(int userIdx){
+        String checkValidUserQuery = "select exists(select userIdx from users where userIdx = ? and isDeleted = 'Y')";
         int checkValidUserParams = userIdx;
         return this.jdbcTemplate.queryForObject(checkValidUserQuery,
                 int.class,
