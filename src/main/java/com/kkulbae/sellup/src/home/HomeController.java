@@ -1,9 +1,9 @@
 package com.kkulbae.sellup.src.home;
 
 
+import com.google.api.services.youtube.model.SearchResult;
 import com.kkulbae.sellup.config.BaseException;
 import com.kkulbae.sellup.config.BaseResponse;
-import com.google.api.services.youtube.model.SearchListResponse;
 import com.kkulbae.sellup.src.home.model.GetSellupRes;
 import com.kkulbae.sellup.src.user.UserProvider;
 import com.kkulbae.sellup.utils.JwtService;
@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -70,7 +69,7 @@ public class HomeController {
     /** 셀럽 조회 (유튜브/인스타) API */
     @ResponseBody
     @GetMapping("/search/social")
-    public BaseResponse<Mono<SearchListResponse>> getSellupInfoBySocial(@RequestParam String word) {
+    public BaseResponse<List<SearchResult>> getSellupInfoBySocial(@RequestParam String word) {
         if(word == null){
             return new BaseResponse<>(REQUEST_ERROR);
         }
@@ -80,7 +79,7 @@ public class HomeController {
                 return new BaseResponse<>(DELETED_USER);
             }
 
-            Mono<SearchListResponse> SearchListResponse = homeProvider.GetNewSellupInfo(word);
+            List<SearchResult> SearchListResponse = homeProvider.GetNewSellupInfo(word);
 
             return new BaseResponse<>(SearchListResponse);
 
