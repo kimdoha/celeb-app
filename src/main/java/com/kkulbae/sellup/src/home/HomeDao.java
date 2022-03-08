@@ -48,5 +48,20 @@ public class HomeDao {
         this.jdbcTemplate.update(createThemeQuery, createThemeParams );
     }
 
+    public List<GetThemeRes> getThemeInfo(int clbIdx){
+        String getThemeInfoQuery = "select thmIdx, name, title, themeUrl\n" +
+                                    "from themes t\n" +
+                                    "inner join celebs cs on t.clbIdx = cs.clbIdx\n" +
+                                    "where t.clbIdx = ? and t.isDeleted = 'N'\n" +
+                                    "order by t.createdAt DESC;";
+        int getThemeInfoParams = clbIdx;
+        return this.jdbcTemplate.query(getThemeInfoQuery,
+                (rs, rowNum) -> new GetThemeRes(
+                        rs.getInt("thmIdx"),
+                        rs.getString("name"),
+                        rs.getString("title"),
+                        rs.getString("themeUrl")),
+                getThemeInfoParams);
 
+    }
 }

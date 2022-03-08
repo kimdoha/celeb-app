@@ -14,6 +14,7 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.kkulbae.sellup.config.secret.Secret;
 import com.kkulbae.sellup.config.BaseException;
 import com.kkulbae.sellup.src.home.model.GetCelebRes;
+import com.kkulbae.sellup.src.home.model.GetThemeRes;
 import com.kkulbae.sellup.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,4 +95,18 @@ public class HomeProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+
+    public List<GetThemeRes> getThemeInfo(int clbIdx) throws BaseException{
+        try{
+            if(checkCelebIdx(clbIdx) == 0){
+                throw new BaseException(INVALID_CELEB);
+            }
+            return homeDao.getThemeInfo(clbIdx);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
 }

@@ -5,6 +5,7 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.kkulbae.sellup.config.BaseException;
 import com.kkulbae.sellup.config.BaseResponse;
 import com.kkulbae.sellup.src.home.model.GetCelebRes;
+import com.kkulbae.sellup.src.home.model.GetThemeRes;
 import com.kkulbae.sellup.src.home.model.PostThemeReq;
 import com.kkulbae.sellup.src.user.UserProvider;
 import com.kkulbae.sellup.utils.JwtService;
@@ -113,27 +114,21 @@ public class HomeController {
     }
 
     /** 셀럽 테마 조회 API */
-//    @ResponseBody
-//    @GetMapping("/{clbIdx}/theme")
-//    public BaseResponse<List<GetCelebRes>> getCelebInfo(@RequestParam String word) {
-//        if(word == null){
-//            return new BaseResponse<>(REQUEST_ERROR);
-//        }
-//        try{
-//            int userIdx = jwtService.getUserIdx();
-//            if(userProvider.checkUser(userIdx) == 0){
-//                return new BaseResponse<>(DELETED_USER);
-//            }
-//
-//            List<GetCelebRes> GetCelebRes = homeProvider.getCelebInfo(word);
-//            if(GetCelebRes.isEmpty()){
-//                return new BaseResponse<>(RESPONSE_ERROR);
-//            } else {
-//                return new BaseResponse<>(GetCelebRes);
-//            }
-//
-//        } catch(BaseException exception){
-//            return new BaseResponse<>((exception.getStatus()));
-//        }
-//    }
+    @ResponseBody
+    @GetMapping("/{clbIdx}/theme")
+    public BaseResponse<List<GetThemeRes>> getThemeInfo(@PathVariable("clbIdx") int clbIdx) {
+        try{
+            int userIdx = jwtService.getUserIdx();
+            if(userProvider.checkUser(userIdx) == 0){
+                return new BaseResponse<>(DELETED_USER);
+            }
+
+            List<GetThemeRes> GetThemeRes = homeProvider.getThemeInfo(clbIdx);
+            return new BaseResponse<>(GetThemeRes);
+
+
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
