@@ -13,7 +13,7 @@ import com.google.api.services.youtube.model.SearchResult;
 
 import com.kkulbae.sellup.config.secret.Secret;
 import com.kkulbae.sellup.config.BaseException;
-import com.kkulbae.sellup.src.home.model.GetSellupRes;
+import com.kkulbae.sellup.src.home.model.GetCelebRes;
 import com.kkulbae.sellup.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
-import static com.kkulbae.sellup.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.kkulbae.sellup.config.BaseResponseStatus.*;
 
 @Service
 public class HomeProvider {
@@ -41,11 +41,11 @@ public class HomeProvider {
     }
 
 
-    public List<GetSellupRes> getSellupInfo(String word) throws BaseException {
+    public List<GetCelebRes> getCelebInfo(String word) throws BaseException {
 
         try {
-            List<GetSellupRes> GetSellupRes = homeDao.getSellupBySearch(word);
-            return GetSellupRes;
+            List<GetCelebRes> GetCelebRes = homeDao.getCelebBySearch(word);
+            return GetCelebRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
@@ -58,7 +58,7 @@ public class HomeProvider {
 
     private String youtubeApikey = Secret.YOUTUBE_API_KEY;
 
-    public List<SearchResult> GetNewSellupInfo(String word) throws BaseException {
+    public List<SearchResult> GetNewCelebInfo(String word) throws BaseException {
 
         try {
 
@@ -82,6 +82,15 @@ public class HomeProvider {
 
         } catch (Exception exception) {
             exception.printStackTrace();
+            throw new BaseException(THIRD_PARTY_ERROR);
+        }
+    }
+
+
+    public int checkCelebIdx(int clbIdx) throws BaseException{
+        try{
+            return homeDao.checkCelebIdx(clbIdx);
+        } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }

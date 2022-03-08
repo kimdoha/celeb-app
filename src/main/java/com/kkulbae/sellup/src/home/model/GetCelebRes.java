@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetSellupRes {
-    private int slpIdx;
+public class GetCelebRes {
+    private int clbIdx;
     private String name;
     private String description;
     private String job;

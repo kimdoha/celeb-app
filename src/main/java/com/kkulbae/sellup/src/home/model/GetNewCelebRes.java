@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetNewSellupRes {
+public class GetNewCelebRes {
     private String kind;
     private String videoId;
     private String title;

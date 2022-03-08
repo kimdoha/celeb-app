@@ -4,7 +4,8 @@ package com.kkulbae.sellup.src.home;
 import com.google.api.services.youtube.model.SearchResult;
 import com.kkulbae.sellup.config.BaseException;
 import com.kkulbae.sellup.config.BaseResponse;
-import com.kkulbae.sellup.src.home.model.GetSellupRes;
+import com.kkulbae.sellup.src.home.model.GetCelebRes;
+import com.kkulbae.sellup.src.home.model.PostThemeReq;
 import com.kkulbae.sellup.src.user.UserProvider;
 import com.kkulbae.sellup.utils.JwtService;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ import static com.kkulbae.sellup.config.BaseResponseStatus.*;
 
 
 @RestController
-@RequestMapping("/sellup")
+@RequestMapping("/celeb")
 public class HomeController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -44,7 +45,7 @@ public class HomeController {
     /** 셀럽 조회 API */
     @ResponseBody
     @GetMapping("/search")
-    public BaseResponse<List<GetSellupRes>> getSellupInfo(@RequestParam String word) {
+    public BaseResponse<List<GetCelebRes>> getCelebInfo(@RequestParam String word) {
         if(word == null){
             return new BaseResponse<>(REQUEST_ERROR);
         }
@@ -54,11 +55,11 @@ public class HomeController {
                 return new BaseResponse<>(DELETED_USER);
             }
 
-            List<GetSellupRes> GetSellupRes = homeProvider.getSellupInfo(word);
-            if(GetSellupRes.isEmpty()){
+            List<GetCelebRes> GetCelebRes = homeProvider.getCelebInfo(word);
+            if(GetCelebRes.isEmpty()){
                 return new BaseResponse<>(RESPONSE_ERROR);
             } else {
-                return new BaseResponse<>(GetSellupRes);
+                return new BaseResponse<>(GetCelebRes);
             }
 
         } catch(BaseException exception){
@@ -68,8 +69,8 @@ public class HomeController {
 
     /** 셀럽 조회 (유튜브/인스타) API */
     @ResponseBody
-    @GetMapping("/search/social")
-    public BaseResponse<List<SearchResult>> getSellupInfoBySocial(@RequestParam String word) {
+    @GetMapping("/social-search")
+    public BaseResponse<List<SearchResult>> getCelebInfoBySocial(@RequestParam String word) {
         if(word == null){
             return new BaseResponse<>(REQUEST_ERROR);
         }
@@ -79,7 +80,7 @@ public class HomeController {
                 return new BaseResponse<>(DELETED_USER);
             }
 
-            List<SearchResult> SearchListResponse = homeProvider.GetNewSellupInfo(word);
+            List<SearchResult> SearchListResponse = homeProvider.GetNewCelebInfo(word);
 
             return new BaseResponse<>(SearchListResponse);
 
@@ -88,4 +89,51 @@ public class HomeController {
         }
     }
 
+    /** 셀럽별 테마 등록 API */
+    @ResponseBody
+    @PostMapping("/{clbIdx}/theme")
+    public BaseResponse<String> createTheme(@PathVariable("clbIdx") int clbIdx, @RequestBody PostThemeReq theme){
+        if(theme.getTitle() == null){
+            return new BaseResponse<>(REQUEST_ERROR);
+        }
+
+        try{
+            int userIdx = jwtService.getUserIdx();
+            if(userProvider.checkUser(userIdx) == 0){
+                return new BaseResponse<>(DELETED_USER);
+            }
+
+            PostThemeReq postThemeReq = new PostThemeReq(theme.getTitle(), theme.getThemeUrl());
+            homeService.createTheme(clbIdx, postThemeReq);
+
+            return new BaseResponse<>("");
+        } catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /** 셀럽 테마 조회 API */
+//    @ResponseBody
+//    @GetMapping("/{clbIdx}/theme")
+//    public BaseResponse<List<GetCelebRes>> getCelebInfo(@RequestParam String word) {
+//        if(word == null){
+//            return new BaseResponse<>(REQUEST_ERROR);
+//        }
+//        try{
+//            int userIdx = jwtService.getUserIdx();
+//            if(userProvider.checkUser(userIdx) == 0){
+//                return new BaseResponse<>(DELETED_USER);
+//            }
+//
+//            List<GetCelebRes> GetCelebRes = homeProvider.getCelebInfo(word);
+//            if(GetCelebRes.isEmpty()){
+//                return new BaseResponse<>(RESPONSE_ERROR);
+//            } else {
+//                return new BaseResponse<>(GetCelebRes);
+//            }
+//
+//        } catch(BaseException exception){
+//            return new BaseResponse<>((exception.getStatus()));
+//        }
+//    }
 }

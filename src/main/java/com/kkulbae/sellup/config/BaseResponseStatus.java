@@ -24,6 +24,7 @@ public enum BaseResponseStatus {
     INVALID_USER_JWT(false,2003,"권한이 없는 유저의 접근입니다."),
     DELETED_USER(false, 2004,"비활성화된 유저입니다."),
 
+
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
 
@@ -49,6 +50,8 @@ public enum BaseResponseStatus {
     DUPLICATED_NICKNAME(false,3015,"중복된 닉네임입니다."),
 
 
+    // post-theme
+    INVALID_CELEB(false,3016,"유효하지 않은 셀럽입니다."),
 
 
     /**
@@ -56,6 +59,7 @@ public enum BaseResponseStatus {
      */
     DATABASE_ERROR(false, 4000, "데이터베이스 연결에 실패하였습니다."),
     SERVER_ERROR(false, 4001, "서버와의 연결에 실패하였습니다."),
+    THIRD_PARTY_ERROR(false, 4002, "데이터를 불러올 수 없습니다."),
 
     //[PATCH] /users/{userIdx}
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
