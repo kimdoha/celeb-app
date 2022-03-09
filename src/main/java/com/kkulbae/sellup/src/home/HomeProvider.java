@@ -136,15 +136,25 @@ public class HomeProvider {
         return builder.build().encode().toUri();
     }
 
-    public GetPlaceInfoRes getPlaceInfoBySearch(String input) throws BaseException {
+    public GetTotalPlaceInfoRes getPlaceInfoBySearch(String input) throws BaseException {
         try{
 
             GetPlaceInfoRes getPlaceInfoRes = retrieveMapInfo(input);
+            if(!getPlaceInfoRes.getStatus().equals("OK")){
+                throw new BaseException(THIRD_PARTY_ERROR);
+            }
 
-            return getPlaceInfoRes;
+            String address = getPlaceInfoRes.getCandidates().get(0).getFormatted_address();
+            Double lat = getPlaceInfoRes.getCandidates().get(0).getGeometry().getLocation().getLat();
+            Double lng = getPlaceInfoRes.getCandidates().get(0).getGeometry().getLocation().getLng();
+            String name = getPlaceInfoRes.getCandidates().get(0).getName();
+            Float rating = getPlaceInfoRes.getCandidates().get(0).getRating();
+
+            GetTotalPlaceInfoRes getTotalPlaceInfoRes = new GetTotalPlaceInfoRes(address, lat, lng, name, rating);
+            return getTotalPlaceInfoRes;
 
         } catch(Exception exception){
-            System.out.println(exception);
+            logger.info(String.valueOf(exception));
             throw new BaseException(DATABASE_ERROR);
         }
     }

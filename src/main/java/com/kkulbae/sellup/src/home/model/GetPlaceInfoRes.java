@@ -19,16 +19,5 @@ public class GetPlaceInfoRes {
 
     }
 
-//    private String status;
-//    private Candidate[] candidates;
-
-
-//    static class Candidate {
-//        public String formatted_address;
-//        public Json geometry;
-//        public Json viewport;
-//        public String name;
-//        public int rating;
-//    }
 }
 
