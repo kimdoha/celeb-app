@@ -10,21 +10,23 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
-
-import com.kkulbae.sellup.config.secret.Secret;
 import com.kkulbae.sellup.config.BaseException;
-import com.kkulbae.sellup.src.home.model.GetCelebRes;
-import com.kkulbae.sellup.src.home.model.GetThemeRes;
+import com.kkulbae.sellup.config.secret.Secret;
+import com.kkulbae.sellup.src.home.model.*;
 import com.kkulbae.sellup.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 import static com.kkulbae.sellup.config.BaseResponseStatus.*;
+import static com.kkulbae.sellup.config.secret.Secret.GOOGLE_MAP_API_KEY;
 
 @Service
 public class HomeProvider {
@@ -108,5 +110,43 @@ public class HomeProvider {
         }
     }
 
+
+    // 주소 검색 관련 API
+    private RestTemplate restTemplate;
+    private String apiKey = GOOGLE_MAP_API_KEY;
+
+    public GetPlaceInfoRes retrieveMapInfo(String input) {
+        RestTemplate restTemplate = new RestTemplate();
+        URI googleMapApiURI = buildURI(input);
+
+        GetPlaceInfoRes getPlaceInfoRes = restTemplate.getForObject(googleMapApiURI, GetPlaceInfoRes.class);
+
+        return getPlaceInfoRes;
+    }
+
+    private URI buildURI(String input) {
+        String endpointURI = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(endpointURI)
+                .queryParam("fields", "formatted_address,name,rating,opening_hours,geometry")
+                .queryParam("input", input)
+                .queryParam("inputtype", "textquery")
+                .queryParam("key", apiKey);
+
+        return builder.build().encode().toUri();
+    }
+
+    public GetPlaceInfoRes getPlaceInfoBySearch(String input) throws BaseException {
+        try{
+
+            GetPlaceInfoRes getPlaceInfoRes = retrieveMapInfo(input);
+
+            return getPlaceInfoRes;
+
+        } catch(Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
 }

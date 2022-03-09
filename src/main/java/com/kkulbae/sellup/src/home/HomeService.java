@@ -8,7 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.kkulbae.sellup.config.BaseResponseStatus.*;
+import static com.kkulbae.sellup.config.BaseResponseStatus.DATABASE_ERROR;
+import static com.kkulbae.sellup.config.BaseResponseStatus.INVALID_CELEB;
 
 @Service
 public class HomeService {

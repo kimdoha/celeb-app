@@ -5,6 +5,7 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.kkulbae.sellup.config.BaseException;
 import com.kkulbae.sellup.config.BaseResponse;
 import com.kkulbae.sellup.src.home.model.GetCelebRes;
+import com.kkulbae.sellup.src.home.model.GetPlaceInfoRes;
 import com.kkulbae.sellup.src.home.model.GetThemeRes;
 import com.kkulbae.sellup.src.home.model.PostThemeReq;
 import com.kkulbae.sellup.src.user.UserProvider;
@@ -131,4 +132,19 @@ public class HomeController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /** 주소 검색 with Places Search API  */
+    @ResponseBody
+    @GetMapping("/place-search")
+    public BaseResponse<GetPlaceInfoRes> getPlaceInfoBySearch(@RequestParam String input){
+        try {
+            GetPlaceInfoRes getPlaceInfoRes = homeProvider.getPlaceInfoBySearch(input);
+
+            return new BaseResponse<>(getPlaceInfoRes);
+        } catch(BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /** 핫플 등록 with Places API(Place search / details) + Geocoding API  */
 }
