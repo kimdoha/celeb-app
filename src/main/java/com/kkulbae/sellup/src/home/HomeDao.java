@@ -1,6 +1,9 @@
 package com.kkulbae.sellup.src.home;
 
-import com.kkulbae.sellup.src.home.model.*;
+import com.kkulbae.sellup.src.home.model.GetCelebRes;
+import com.kkulbae.sellup.src.home.model.GetThemeRes;
+import com.kkulbae.sellup.src.home.model.PostPlaceReq;
+import com.kkulbae.sellup.src.home.model.PostThemeReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -63,5 +66,14 @@ public class HomeDao {
                         rs.getString("themeUrl")),
                 getThemeInfoParams);
 
+    }
+
+
+
+
+    public void createPlace(int clbIdx, int userIdx, PostPlaceReq postPlaceReq){
+        String createPlaceQuery = "insert into places(clbIdx, userIdx, address, name, rating, latitude, longitude) VALUES (?,?,?,?,?,?,?)";
+        Object[] createPlaceParams = new Object[]{clbIdx, userIdx, postPlaceReq.getAddress(), postPlaceReq.getName(), postPlaceReq.getRating(),postPlaceReq.getLat(), postPlaceReq.getLng()};
+        this.jdbcTemplate.update(createPlaceQuery, createPlaceParams);
     }
 }

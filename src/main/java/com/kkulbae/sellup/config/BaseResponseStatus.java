@@ -37,6 +37,12 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_NICKNAME(false, 2020, "닉네임 형식을 확인해주세요."),
 
 
+    // post-theme/place
+    POST_PLACE_EMPTY_ADDRESS(false, 2021, "주소를 입력해주세요."),
+    POST_PLACE_EMPTY_NAME(false, 2022, "이름을 입력해주세요."),
+    POST_PLACE_EMPTY_RATING(false, 2023, "평점을 입력해주세요."),
+    POST_PLACE_EMPTY_LATITUDE(false, 2024, "위도를 입력해주세요."),
+    POST_PLACE_EMPTY_LONGITUDE(false, 2025, "경도를 입력해주세요."),
 
     /**
      * 3000 : Response 오류

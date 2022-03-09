@@ -1,7 +1,7 @@
 package com.kkulbae.sellup.src.home;
 
 import com.kkulbae.sellup.config.BaseException;
-import com.kkulbae.sellup.src.home.model.PostThemeReq;
+import com.kkulbae.sellup.src.home.model.*;
 import com.kkulbae.sellup.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,5 +41,18 @@ public class HomeService {
         }
     }
 
+
+    public void createPlace(int clbIdx, int userIdx, PostPlaceReq postPlaceReq) throws BaseException {
+        try{
+            if(homeProvider.checkCelebIdx(clbIdx) == 0){
+                throw new BaseException(INVALID_CELEB);
+            }
+            homeDao.createPlace(clbIdx, userIdx, postPlaceReq);
+
+        } catch(Exception exception){
+            System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
 

@@ -143,5 +143,38 @@ public class HomeController {
         }
     }
 
-    /** 핫플 등록 with Places API(Place search / details) + Geocoding API  */
+    /** 핫플 등록 with Places API(Place details) */
+    @ResponseBody
+    @PostMapping("/{clbIdx}/theme/place")
+    public BaseResponse<String> createPlace(@PathVariable("clbIdx") int clbIdx, @RequestBody PostPlaceReq postPlaceReq){
+        if(postPlaceReq.getAddress() == null){
+            return new BaseResponse<>(POST_PLACE_EMPTY_ADDRESS);
+        }
+        if(postPlaceReq.getName() == null) {
+            return new BaseResponse<>(POST_PLACE_EMPTY_NAME);
+        }
+        if(postPlaceReq.getRating() == null) {
+            return new BaseResponse<>(POST_PLACE_EMPTY_RATING);
+        }
+        if(postPlaceReq.getLat() == null){
+            return new BaseResponse<>(POST_PLACE_EMPTY_LATITUDE);
+        }
+        if(postPlaceReq.getLng() == null){
+            return new BaseResponse<>(POST_PLACE_EMPTY_LONGITUDE);
+        }
+
+        try{
+            int userIdx = jwtService.getUserIdx();
+            if(userProvider.checkUser(userIdx) == 0){
+                return new BaseResponse<>(DELETED_USER);
+            }
+
+            homeService.createPlace(clbIdx, userIdx, postPlaceReq);
+
+            return new BaseResponse<>("");
+        } catch(BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }
