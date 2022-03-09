@@ -1,9 +1,6 @@
 package com.kkulbae.sellup.src.home;
 
-import com.kkulbae.sellup.src.home.model.GetCelebRes;
-import com.kkulbae.sellup.src.home.model.GetThemeRes;
-import com.kkulbae.sellup.src.home.model.PostPlaceReq;
-import com.kkulbae.sellup.src.home.model.PostThemeReq;
+import com.kkulbae.sellup.src.home.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -69,11 +66,27 @@ public class HomeDao {
     }
 
 
-
-
     public void createPlace(int clbIdx, int userIdx, PostPlaceReq postPlaceReq){
         String createPlaceQuery = "insert into places(clbIdx, userIdx, address, name, rating, latitude, longitude) VALUES (?,?,?,?,?,?,?)";
         Object[] createPlaceParams = new Object[]{clbIdx, userIdx, postPlaceReq.getAddress(), postPlaceReq.getName(), postPlaceReq.getRating(),postPlaceReq.getLat(), postPlaceReq.getLng()};
         this.jdbcTemplate.update(createPlaceQuery, createPlaceParams);
+    }
+
+    public List<GetPlaceListRes> getPlaceInfoList(int clbIdx){
+        String getPlaceInfoQuery = "select plcIdx, address, name, rating, latitude, longitude\n" +
+                "from places t\n" +
+                "where clbIdx = ? and isDeleted = 'N'\n" +
+                "order by createdAt DESC;";
+        int getPlaceInfoParams = clbIdx;
+        return this.jdbcTemplate.query(getPlaceInfoQuery,
+                (rs, rowNum) -> new GetPlaceListRes(
+                        rs.getInt("plcIdx"),
+                        rs.getString("address"),
+                        rs.getString("name"),
+                        rs.getFloat("rating"),
+                        rs.getDouble("latitude"),
+                        rs.getDouble("longitude")),
+                getPlaceInfoParams);
+
     }
 }

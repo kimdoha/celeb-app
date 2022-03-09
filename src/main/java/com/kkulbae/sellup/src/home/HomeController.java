@@ -177,4 +177,20 @@ public class HomeController {
         }
     }
 
+    /** 핫플 조회 API */
+    @ResponseBody
+    @GetMapping("/{clbIdx}/theme/place")
+    public BaseResponse<List<GetPlaceListRes>> getPlaceInfoList(@PathVariable("clbIdx") int clbIdx) {
+        try{
+            int userIdx = jwtService.getUserIdx();
+            if(userProvider.checkUser(userIdx) == 0){
+                return new BaseResponse<>(DELETED_USER);
+            }
+
+            List<GetPlaceListRes> getPlaceListRes = homeProvider.getPlaceInfoList(clbIdx);
+            return new BaseResponse<>(getPlaceListRes);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

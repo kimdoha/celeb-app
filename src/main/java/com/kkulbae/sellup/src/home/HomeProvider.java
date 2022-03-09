@@ -159,4 +159,14 @@ public class HomeProvider {
         }
     }
 
+    public List<GetPlaceListRes> getPlaceInfoList(int clbIdx) throws BaseException{
+        try{
+            if(checkCelebIdx(clbIdx) == 0){
+                throw new BaseException(INVALID_CELEB);
+            }
+            return homeDao.getPlaceInfoList(clbIdx);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
