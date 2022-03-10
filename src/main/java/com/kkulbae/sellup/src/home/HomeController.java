@@ -88,6 +88,38 @@ public class HomeController {
         }
     }
 
+    /** 셀럽 등록 API**/
+    @ResponseBody
+    @PostMapping("")
+    public BaseResponse<String> createCeleb(@RequestBody PostCelebReq postCelebReq) {
+        if(postCelebReq.getName() == null){
+            return new BaseResponse<>(POST_CELEB_EMPTY_NAME);
+        }
+        if(postCelebReq.getDescription() == null){
+            return new BaseResponse<>(POST_CELEB_EMPTY_DESCRIPTION);
+        }
+        if(postCelebReq.getJob() == null){
+            return new BaseResponse<>(POST_CELEB_EMPTY_JOB);
+        }
+        if(postCelebReq.getProfileImage() == null){
+            return new BaseResponse<>(POST_CELEB_EMPTY_PROFILE_IMAGE);
+        }
+        try{
+            int userIdx = jwtService.getUserIdx();
+            if(userProvider.checkUser(userIdx) == 0){
+                return new BaseResponse<>(DELETED_USER);
+            }
+
+            homeService.createCeleb(postCelebReq);
+
+            return new BaseResponse<>("");
+
+
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     /** 셀럽별 테마 등록 API */
     @ResponseBody
     @PostMapping("/{clbIdx}/theme")

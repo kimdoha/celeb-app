@@ -89,4 +89,10 @@ public class HomeDao {
                 getPlaceInfoParams);
 
     }
+
+    public void createCeleb(PostCelebReq postCelebReq){
+        String createCelebQuery = "insert into celebs(name, description, job, profileImage) VALUES (?,?,?,?)";
+        Object[] createCelebParams = new Object[]{postCelebReq.getName(), postCelebReq.getDescription(), postCelebReq.getJob(),postCelebReq.getProfileImage() };
+        this.jdbcTemplate.update(createCelebQuery, createCelebParams);
+    }
 }

@@ -44,6 +44,13 @@ public enum BaseResponseStatus {
     POST_PLACE_EMPTY_LATITUDE(false, 2024, "위도를 입력해주세요."),
     POST_PLACE_EMPTY_LONGITUDE(false, 2025, "경도를 입력해주세요."),
 
+
+    // post-celeb
+    POST_CELEB_EMPTY_NAME(false, 2026, "이름을 입력해주세요."),
+    POST_CELEB_EMPTY_DESCRIPTION(false, 2027, "설명을 입력해주세요."),
+    POST_CELEB_EMPTY_JOB(false, 2028, "직업을 입력해주세요."),
+    POST_CELEB_EMPTY_PROFILE_IMAGE(false, 2029, "프로필 이미지를 입력해주세요."),
+
     /**
      * 3000 : Response 오류
      */

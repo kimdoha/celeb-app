@@ -50,7 +50,18 @@ public class HomeService {
             homeDao.createPlace(clbIdx, userIdx, postPlaceReq);
 
         } catch(Exception exception){
-            System.out.println(exception);
+            // System.out.println(exception);
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
+    public void createCeleb(PostCelebReq postCelebReq) throws BaseException {
+        try{
+
+            homeDao.createCeleb(postCelebReq);
+
+        } catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }
