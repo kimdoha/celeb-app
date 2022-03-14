@@ -1,1 +1,1 @@
-# sellup-app
+# celeb-app
