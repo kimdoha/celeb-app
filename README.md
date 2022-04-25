@@ -16,7 +16,6 @@ Language
   
 Framework
   - SpringBoot
-  - JUnit
   
 Database
   - MySQL
